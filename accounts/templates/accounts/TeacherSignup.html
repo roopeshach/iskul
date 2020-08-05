@@ -1,0 +1,33 @@
+{% extends 'accounts/base.html' %}
+
+{% block body_block %}
+
+{% load crispy_forms_tags %}
+
+
+
+<br><br><br><br><br>
+<div class="container">
+    <div class="row mt-5">
+      <div class="col-md-6 m-auto">
+        <div class="card card-body mb-4">
+          <h2 class="text-center mb-3">
+            <i class="fas fa-sign-in-alt"></i>Teacher Signup
+          </h2>
+          
+          <form action="" method="post">
+            {% csrf_token %}
+            {{ base|crispy }}
+            {{teacher_form|crispy}}
+
+            <input type="submit" value="Submit" class = "btn btn-primary btn-block">
+
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock body_block %}

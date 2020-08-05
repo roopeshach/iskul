@@ -1,0 +1,111 @@
+{% extends 'assignment/base.html' %}
+
+
+{% block body_block %}
+
+{{assignment.title}}
+{% load crispy_forms_tags %}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<br><br>
+
+
+
+<div class="container">
+
+
+    <div class="row">
+
+        <div class="col-md-8 mx-auto">
+
+            <h2>Assignment Info</h2>
+            <hr>
+
+            <div class="card card-body mb-5">
+
+            
+
+                <h3 class="card-title">{{assignments.title}}</h3>
+                <hr>
+                <p class="lead">
+             {% autoescape on %}
+                {{assignments.description | safe}}
+                {% endautoescape %}
+                </p>
+                <hr>
+                <p>
+
+                    Submission Date : {{assignments.submission_date}} <br>
+                    Given By : {{assignments.given_by.user.first_name}} {{assignments.given_by.user.last_name}} <br>
+                    Given At : {{assignments.given_at}}
+
+
+
+                </p>
+
+                <hr>
+
+                <a href="{{assignments.question_file.url}}" class="btn btn-primary">Download Question</a>
+
+
+
+            </div> <!-- CARD END -->
+
+
+            <h3 class="my-3">Your Submission</h3>
+
+            <div class="card card-body">
+
+                {% if not submission %}
+                <h5>You haven't submitted any answers to this question yet.</h5>
+                <hr>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {{form|crispy}}
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Danger!</strong> {{form.errors}}
+                    </div>
+                    {% endif %}
+                    <hr>
+                    <input type="submit" value="Submit Answer" class="btn btn-primary">
+                </form>
+
+
+
+
+
+                {% else %}
+                <p>
+                    Status : {% if submission.checked %} {{submission.received_grade}}
+                    {% else %} Not Checked
+                    {% endif %} <br>
+
+                    <a class="my-3 btn btn-primary float-right"
+                        href="{% url 'assignment:delete_submission' submission_id=submission.pk %}"
+                        class="btn btn-primary float-right m-3">Delete Submission</a>
+
+
+                </p>
+                {% endif %}
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock body_block %}
